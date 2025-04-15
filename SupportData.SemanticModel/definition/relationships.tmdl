@@ -1,0 +1,17 @@
+relationship 2b9b6238-c81e-4bdb-9f60-600f44efa720
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_c19b9ce6-a42c-4ba7-8d43-10025cc7d9c1.Date
+
+relationship e8fcc3ed-6619-e28d-8f9e-13f775d6f216
+	fromColumn: 'Regional NM & ACH inputs by tea'.Date
+	toColumn: DimDate.Date
+
+relationship 2224c56c-d740-f4d8-2dfe-b882001fa1af
+	fromColumn: 'Global DU wait time buckets'.Date
+	toColumn: DimDate.Date
+
+relationship 2e9a3e46-01a2-c83a-a979-d21000bab2d6
+	fromColumn: 'Global DU escalations and escal'.Date
+	toColumn: DimDate.Date
+

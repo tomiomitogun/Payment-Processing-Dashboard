@@ -1,0 +1,61 @@
+table 'Regional NM & ACH inputs by tea'
+	lineageTag: f6f1c552-07b6-42b6-adbe-2b4241024a6a
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 20ec094a-67dc-4efd-ab1e-e75c4f9b5470
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ops Team Currency'
+		dataType: string
+		lineageTag: 9c5634b4-29d1-44b1-b426-618e63db3861
+		summarizeBy: none
+		sourceColumn: Ops Team Currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Queue Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 82282884-834a-4b3f-9944-7fe8a496a455
+		summarizeBy: sum
+		sourceColumn: Queue Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 6c609491-f21f-497d-a2ab-96c316a5a830
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Regional NM & ACH inputs by tea' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+				    #"Regional NM & ACH inputs by tea_Sheet" = Source{[Item="Regional NM & ACH inputs by tea",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Regional NM & ACH inputs by tea_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Ops Team Currency", type any}, {"APAC Expansion ops", type any}, {"APAC Mature ops", type any}, {"Emerging ops", type any}, {"EUR ops", type any}, {"Europe ops", type any}, {"GBP ops", type any}, {"JPYKRW ops", type any}, {"NorthAm ops", type any}}),
+				    #"Removed Top Rows" = Table.Skip(#"Changed Type",1),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Top Rows",{{"Ops Team Currency", "Date"}}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Renamed Columns", {"Date"}, "Attribute", "Value"),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "Ops Team Currency"}, {"Value", "Queue Count"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns1", "Category", each "Regional NM & ACH inputs"),
+				    #"Appended Query" = Table.Combine({#"Added Custom", #"Regional NM & ACH outputs by te"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Appended Query",{{"Queue Count", Int64.Type}, {"Date", type date}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
