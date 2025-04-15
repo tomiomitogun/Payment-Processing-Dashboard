@@ -1,0 +1,75 @@
+table 'Global DU wait time buckets'
+	lineageTag: b33b27a3-e2ab-4058-80af-220b7919d603
+
+	measure TotalCaseCount = sum('Global DU wait time buckets'[Case Count])
+		formatString: #,0
+		lineageTag: 820decad-7fa2-4d08-ae3f-b3c418b99721
+
+	measure 'Global linking TotalCaseCount' = IF(ISBLANK(CALCULATE([TotalCaseCount],'Global DU wait time buckets'[Category]="Global linking wait time bucket")),0,CALCULATE([TotalCaseCount],'Global DU wait time buckets'[Category]="Global linking wait time bucket"))
+		formatString: #,0
+		lineageTag: a8f6e899-144a-4e8a-b10c-b799d1847a93
+
+	measure 'Global DU TotalCaseCount' = IF(ISBLANK(CALCULATE([TotalCaseCount],'Global DU wait time buckets'[Category]="Global DU wait time bucket")),0,CALCULATE([TotalCaseCount],'Global DU wait time buckets'[Category]="Global DU wait time bucket"))
+		formatString: #,0
+		lineageTag: 8b98a448-2583-44a6-a7a6-c7dac454a2de
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 55f00adc-b98c-4928-8cf5-f21974082d1d
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Wait Hour Buckets'
+		dataType: string
+		lineageTag: eb5a3c4c-b01e-4b30-b631-4e0bcf87b5a3
+		summarizeBy: none
+		sourceColumn: Wait Hour Buckets
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Case Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 82a71742-d6aa-468b-a4bf-b74be3de7e72
+		summarizeBy: sum
+		sourceColumn: Case Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 4e73171c-fd44-4d77-ba9e-700495657e53
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Global DU wait time buckets' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+				    #"Global DU wait time buckets_Sheet" = Source{[Item="Global DU wait time buckets",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Global DU wait time buckets_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Wait Hour Buckets", type any}, {"1. Within 1h", type any}, {"2. Within 2h", type any}, {"3. Within 4h", type any}, {"4. Within 8h", type any}, {"5. Within 12h", type any}, {"6. Within 24h", type any}, {"7. Within 48h", type any}, {"8. Within 72h", type any}}),
+				    #"Removed Top Rows" = Table.Skip(#"Changed Type",1),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Top Rows",{{"Wait Hour Buckets", "Date"}}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Renamed Columns", {"Date"}, "Attribute", "Value"),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "Wait Hour Buckets"}, {"Value", "Ticket Count"}}),
+				    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Renamed Columns1", {{"Wait Hour Buckets", each Text.AfterDelimiter(_, ". "), type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Extracted Text After Delimiter", "Category", each "Global DU wait time bucket"),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Added Custom",{{"Ticket Count", "Case Count"}}),
+				    #"Appended Query" = Table.Combine({#"Renamed Columns2", #"Global linking wait time bucket"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Appended Query",{{"Case Count", Int64.Type}, {"Date", type date}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

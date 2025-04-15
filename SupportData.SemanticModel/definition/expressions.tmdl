@@ -1,0 +1,139 @@
+expression 'Global DU escalations and escal (2)' =
+		let
+		    Source = #"Global DU escalations and escal",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		in
+		    #"Removed Duplicates"
+	lineageTag: 1e1491da-d8f9-43fd-a071-86bfafcb541e
+	queryGroup: DateExtract
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Global DU wait time buckets (2)' =
+		let
+		    Source = #"Global DU wait time buckets",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		in
+		    #"Removed Duplicates"
+	lineageTag: 951b7729-eb35-4ccd-a757-f6f54f2b8a4c
+	queryGroup: DateExtract
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Global linking escalations and (2)' =
+		let
+		    Source = #"Global linking escalations and",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"})
+		in
+		    #"Removed Other Columns"
+	lineageTag: e634a944-6155-418e-8e47-34f770d8f128
+	queryGroup: DateExtract
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Global linking wait time bucket (2)' =
+		let
+		    Source = #"Global linking wait time bucket",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		in
+		    #"Removed Duplicates"
+	lineageTag: 1700b591-725e-4dc1-ad46-04a11eb74f04
+	queryGroup: DateExtract
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Regional NM & ACH inputs by tea (2)' =
+		let
+		    Source = #"Regional NM & ACH inputs by tea",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		in
+		    #"Removed Duplicates"
+	lineageTag: 01f167c1-db8f-4ffb-8155-efa59dedc94e
+	queryGroup: DateExtract
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Regional NM & ACH outputs by te (2)' =
+		let
+		    Source = #"Regional NM & ACH outputs by te",
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Date"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+		in
+		    #"Removed Duplicates"
+	lineageTag: a4e87ab7-3d7a-4bc3-826f-a418ffb20763
+	queryGroup: DateExtract
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Global linking escalations and' =
+		let
+		    Source = Excel.Workbook(Web.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+		    #"Global linking escalations and _Sheet" = Source{[Item="Global linking escalations and ",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Global linking escalations and _Sheet", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Action Created Parameter", type date}, {"No of Escalations", Int64.Type}, {"Escalation Rate", type number}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Action Created Parameter", "Date"}}),
+		    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "Category", each "Global linking escalation")
+		in
+		    #"Added Custom"
+	lineageTag: b43c9bb5-0b03-4ea3-b7b7-462ad150610f
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Global linking wait time bucket' =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+		    #"Global linking wait time bucket_Sheet" = Source{[Item="Global linking wait time bucket",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Global linking wait time bucket_Sheet", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Wait Hour Buckets", type any}, {"1. Within 1h", type any}, {"2. Within 2h", type any}, {"3. Within 4h", type any}, {"4. Within 8h", type any}, {"5. Within 12h", type any}, {"6. Within 24h", type any}, {"7. Within 48h", type any}, {"8. Within 72h", type any}, {"9. Over 72h", type any}}),
+		    #"Removed Top Rows" = Table.Skip(#"Changed Type",1),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed Top Rows",{{"Wait Hour Buckets", "Date"}}),
+		    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Renamed Columns", {"Date"}, "Attribute", "Value"),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "Wait Hour Buckets"}, {"Value", "Case Count"}}),
+		    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Renamed Columns1", {{"Wait Hour Buckets", each Text.AfterDelimiter(_, ". "), type text}}),
+		    #"Added Custom" = Table.AddColumn(#"Extracted Text After Delimiter", "Category", each "Global linking wait time bucket")
+		in
+		    #"Added Custom"
+	lineageTag: f8833be4-e2b4-459b-846e-6db679c16fa2
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Regional NM & ACH outputs by te' =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+		    #"Regional NM & ACH outputs by te_Sheet" = Source{[Item="Regional NM & ACH outputs by te",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Regional NM & ACH outputs by te_Sheet", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Internal Action Actor Payops Team", type any}, {"APAC Expansion ops", type any}, {"APAC Mature ops", type any}, {"BRL ops", type any}, {"CEE ops", type any}, {"Central ops", type any}, {"CNO ops", type any}, {"Emerging ops", type any}, {"EUR ops", type any}, {"Europe & UK (Area)", type any}, {"Europe ops", type any}, {"GBP ops", type any}, {"GC ops", type any}, {"Global Processing Budapest 1", type any}, {"Global Processing Budapest 2", type any}, {"Global Processing Singapore 1", type any}, {"Global Processing Singapore 2", type any}, {"Global Processing Tallinn 1", type any}, {"Global Processing Tallinn 2", type any}, {"Global Processing Tallinn 3", type any}, {"Global Processing US 1", type any}, {"Global Processing US 2", type any}, {"JPYKRW ops", type any}, {"LatAm MEA ops", type any}, {"LatAm ops", type any}, {"NorthAm ops", type any}, {"Ops APAC - Global Processing", type any}, {"Pacific ops", type any}, {"ROSEA ops", type any}, {"SGDMYR ops", type any}, {"South Asia ops", type any}, {"SWIFT ops", type any}, {"Training", type any}, {"Column34", type any}}),
+		    #"Removed Top Rows" = Table.Skip(#"Changed Type",1),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed Top Rows",{{"Internal Action Actor Payops Team", "Date"}}),
+		    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Renamed Columns", {"Date"}, "Attribute", "Value"),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "Ops Team Currency"}, {"Value", "Output Count"}}),
+		    #"Added Custom" = Table.AddColumn(#"Renamed Columns1", "Category", each "Regional NM &ACH outputs"),
+		    #"Renamed Columns2" = Table.RenameColumns(#"Added Custom",{{"Output Count", "Queue Count"}})
+		in
+		    #"Renamed Columns2"
+	lineageTag: 426ec564-4995-48bd-b60a-1fa2501d8868
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

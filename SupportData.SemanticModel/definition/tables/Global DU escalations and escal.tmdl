@@ -1,0 +1,74 @@
+table 'Global DU escalations and escal'
+	lineageTag: dfc1c05b-ed65-46d2-8983-1b1a0150703d
+
+	measure AverageEscalationRate = AVERAGE('Global DU escalations and escal'[Escalation Rate])
+		lineageTag: d5313023-ba96-49ec-8afc-00b7d57d2f9b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure GlobalDUEscalations = IF(ISBLANK(CALCULATE([AverageEscalationRate],'Global DU escalations and escal'[Category]="Global DU escalations")),0,CALCULATE([AverageEscalationRate],'Global DU escalations and escal'[Category]="Global DU escalations"))
+		lineageTag: 658797ed-3ed3-414c-9887-190aa26ad628
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure GloballinkingEscalations = IF(ISBLANK(CALCULATE([AverageEscalationRate],'Global DU escalations and escal'[Category]="Global linking escalation")),0,CALCULATE([AverageEscalationRate],'Global DU escalations and escal'[Category]="Global linking escalation"))
+		lineageTag: 297dd685-e94f-4885-8638-b3e95237fd1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c7ff6b6b-b8ee-404f-80f5-566f0a07085c
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'No of Escalations'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0a1186b5-bae5-4a48-93c9-85337db5bf0c
+		summarizeBy: sum
+		sourceColumn: No of Escalations
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Escalation Rate'
+		dataType: double
+		lineageTag: b0a75d6a-db45-4c0c-aa7e-e562da03f6eb
+		summarizeBy: sum
+		sourceColumn: Escalation Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Category
+		dataType: string
+		lineageTag: fc4b5804-efcc-4525-92ad-9d8b961fcf26
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Global DU escalations and escal' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+				    #"Global DU escalations and escal_Sheet" = Source{[Item="Global DU escalations and escal",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Global DU escalations and escal_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Action Created Parameter", type date}, {"No of Escalations", Int64.Type}, {"Escalation Rate", type number}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Action Created Parameter", "Date"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "Category", each "Global DU escalations"),
+				    #"Appended Query" = Table.Combine({#"Added Custom", #"Global linking escalations and"})
+				in
+				    #"Appended Query"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
