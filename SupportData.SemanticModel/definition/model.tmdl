@@ -3,6 +3,7 @@ model Model
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	sourceQueryCulture: en-US
 	dataAccessOptions
+		fastCombine
 		legacyRedirects
 		returnErrorValuesAsNull
 
@@ -14,7 +15,7 @@ annotation PBI_QueryOrder = ["Global DU escalations and escal","Global DU wait t
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBIDesktopVersion = 2.141.1558.0 (25.03)+75b5f06a991f8f8a8a4d6b6fcd0f66e1ec2d6fdc
+annotation PBIDesktopVersion = 2.137.1102.0 (24.10)
 
 annotation PBI_ProTooling = ["DevMode"]
 

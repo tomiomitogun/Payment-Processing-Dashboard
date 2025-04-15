@@ -58,7 +58,7 @@ table 'Global DU escalations and escal'
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(Web.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vReUbidafH-2wR-k10A3lahb3t0WDHBvNP7EW1DVqfxejh9X1yWCE2xlONtwCBXuyOfqP30Q2ntX5iw/pub?output=xlsx"), null, true),
 				    #"Global DU escalations and escal_Sheet" = Source{[Item="Global DU escalations and escal",Kind="Sheet"]}[Data],
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Global DU escalations and escal_Sheet", [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Action Created Parameter", type date}, {"No of Escalations", Int64.Type}, {"Escalation Rate", type number}}),

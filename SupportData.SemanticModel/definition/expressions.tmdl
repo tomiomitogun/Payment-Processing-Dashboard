@@ -83,7 +83,7 @@ expression 'Regional NM & ACH outputs by te (2)' =
 
 expression 'Global linking escalations and' =
 		let
-		    Source = Excel.Workbook(Web.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+		    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vReUbidafH-2wR-k10A3lahb3t0WDHBvNP7EW1DVqfxejh9X1yWCE2xlONtwCBXuyOfqP30Q2ntX5iw/pub?output=xlsx"), null, true),
 		    #"Global linking escalations and _Sheet" = Source{[Item="Global linking escalations and ",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(#"Global linking escalations and _Sheet", [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Action Created Parameter", type date}, {"No of Escalations", Int64.Type}, {"Escalation Rate", type number}}),
@@ -99,7 +99,7 @@ expression 'Global linking escalations and' =
 
 expression 'Global linking wait time bucket' =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+		    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vReUbidafH-2wR-k10A3lahb3t0WDHBvNP7EW1DVqfxejh9X1yWCE2xlONtwCBXuyOfqP30Q2ntX5iw/pub?output=xlsx"), null, true),
 		    #"Global linking wait time bucket_Sheet" = Source{[Item="Global linking wait time bucket",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(#"Global linking wait time bucket_Sheet", [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Wait Hour Buckets", type any}, {"1. Within 1h", type any}, {"2. Within 2h", type any}, {"3. Within 4h", type any}, {"4. Within 8h", type any}, {"5. Within 12h", type any}, {"6. Within 24h", type any}, {"7. Within 48h", type any}, {"8. Within 72h", type any}, {"9. Over 72h", type any}}),
@@ -119,7 +119,7 @@ expression 'Global linking wait time bucket' =
 
 expression 'Regional NM & ACH outputs by te' =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+		    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vReUbidafH-2wR-k10A3lahb3t0WDHBvNP7EW1DVqfxejh9X1yWCE2xlONtwCBXuyOfqP30Q2ntX5iw/pub?output=xlsx"), null, true),
 		    #"Regional NM & ACH outputs by te_Sheet" = Source{[Item="Regional NM & ACH outputs by te",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(#"Regional NM & ACH outputs by te_Sheet", [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Internal Action Actor Payops Team", type any}, {"APAC Expansion ops", type any}, {"APAC Mature ops", type any}, {"BRL ops", type any}, {"CEE ops", type any}, {"Central ops", type any}, {"CNO ops", type any}, {"Emerging ops", type any}, {"EUR ops", type any}, {"Europe & UK (Area)", type any}, {"Europe ops", type any}, {"GBP ops", type any}, {"GC ops", type any}, {"Global Processing Budapest 1", type any}, {"Global Processing Budapest 2", type any}, {"Global Processing Singapore 1", type any}, {"Global Processing Singapore 2", type any}, {"Global Processing Tallinn 1", type any}, {"Global Processing Tallinn 2", type any}, {"Global Processing Tallinn 3", type any}, {"Global Processing US 1", type any}, {"Global Processing US 2", type any}, {"JPYKRW ops", type any}, {"LatAm MEA ops", type any}, {"LatAm ops", type any}, {"NorthAm ops", type any}, {"Ops APAC - Global Processing", type any}, {"Pacific ops", type any}, {"ROSEA ops", type any}, {"SGDMYR ops", type any}, {"South Asia ops", type any}, {"SWIFT ops", type any}, {"Training", type any}, {"Column34", type any}}),

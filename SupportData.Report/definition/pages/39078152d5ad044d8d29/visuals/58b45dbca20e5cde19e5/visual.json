@@ -1,0 +1,170 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.3.0/schema.json",
+  "name": "58b45dbca20e5cde19e5",
+  "position": {
+    "x": 360.56338028169012,
+    "y": 294.88933601609654,
+    "z": 3000,
+    "height": 390.18108651911467,
+    "width": 884.66800804828972,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "lineClusteredColumnComboChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDate"
+                    }
+                  },
+                  "Property": "Month Name"
+                }
+              },
+              "queryRef": "DimDate.Month Name",
+              "nativeQueryRef": "Month Name",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Global DU wait time buckets"
+                    }
+                  },
+                  "Property": "Global DU TotalCaseCount"
+                }
+              },
+              "queryRef": "Global DU wait time buckets.Global DU TotalCaseCount",
+              "nativeQueryRef": "Global DU TotalCaseCount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Global DU wait time buckets"
+                    }
+                  },
+                  "Property": "Global linking TotalCaseCount"
+                }
+              },
+              "queryRef": "Global DU wait time buckets.Global linking TotalCaseCount",
+              "nativeQueryRef": "Global linking TotalCaseCount"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Global DU escalations and escal"
+                    }
+                  },
+                  "Property": "GlobalDUEscalations"
+                }
+              },
+              "queryRef": "Global DU escalations and escal.GlobalDUEscalations",
+              "nativeQueryRef": "GlobalDUEscalations"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Global DU escalations and escal"
+                    }
+                  },
+                  "Property": "GloballinkingEscalations"
+                }
+              },
+              "queryRef": "Global DU escalations and escal.GloballinkingEscalations",
+              "nativeQueryRef": "GloballinkingEscalations"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDate"
+                  }
+                },
+                "Property": "Month Name"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "lineStyles": [
+        {
+          "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'smooth'"
+                }
+              }
+            },
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "markerShape": {
+              "expr": {
+                "Literal": {
+                  "Value": "'square'"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "markerShape": {
+              "expr": {
+                "Literal": {
+                  "Value": "'diamond'"
+                }
+              }
+            },
+            "markerSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "7D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Global DU escalations and escal.GloballinkingEscalations"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
