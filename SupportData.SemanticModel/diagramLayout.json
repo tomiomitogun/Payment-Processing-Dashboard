@@ -1,0 +1,87 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 16.5
+          },
+          "nodeIndex": "Global DU escalations and escal",
+          "nodeLineageTag": "dfc1c05b-ed65-46d2-8983-1b1a0150703d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 318,
+            "y": 17.5
+          },
+          "nodeIndex": "Global DU wait time buckets",
+          "nodeLineageTag": "b33b27a3-e2ab-4058-80af-220b7919d603",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 640,
+            "y": 13.5
+          },
+          "nodeIndex": "Regional NM & ACH inputs by tea",
+          "nodeLineageTag": "f6f1c552-07b6-42b6-adbe-2b4241024a6a",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 329,
+            "y": 334.5
+          },
+          "nodeIndex": "DimDate",
+          "nodeLineageTag": "90779531-e4d0-4e14-8cb9-11a8f2404263",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 924,
+            "y": 201
+          },
+          "nodeIndex": "AllMeasures",
+          "nodeLineageTag": "773e6eb7-9aa2-4072-82c3-86c5164a5047",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
