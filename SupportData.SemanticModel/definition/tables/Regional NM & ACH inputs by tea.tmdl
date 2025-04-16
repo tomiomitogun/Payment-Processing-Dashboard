@@ -41,7 +41,7 @@ table 'Regional NM & ACH inputs by tea'
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vReUbidafH-2wR-k10A3lahb3t0WDHBvNP7EW1DVqfxejh9X1yWCE2xlONtwCBXuyOfqP30Q2ntX5iw/pub?output=xlsx"), null, true),
 				    #"Regional NM & ACH inputs by tea_Sheet" = Source{[Item="Regional NM & ACH inputs by tea",Kind="Sheet"]}[Data],
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Regional NM & ACH inputs by tea_Sheet", [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Ops Team Currency", type any}, {"APAC Expansion ops", type any}, {"APAC Mature ops", type any}, {"Emerging ops", type any}, {"EUR ops", type any}, {"Europe ops", type any}, {"GBP ops", type any}, {"JPYKRW ops", type any}, {"NorthAm ops", type any}}),

@@ -97,9 +97,10 @@ table DimDate
 				    #"Changed Type1" = Table.TransformColumnTypes(#"Inserted Quarter",{{"Year", type text}, {"Quarter", type text}}),
 				    #"Added Custom" = Table.AddColumn(#"Changed Type1", "Year Quarter", each "Q"&[Quarter]&"-"&[Year]),
 				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Custom",{{"Quarter", Int64.Type}, {"Year", Int64.Type}}),
-				    #"Added Custom1" = Table.AddColumn(#"Changed Type2", "QuarterSort", each ([Year]*10)+[Quarter])
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type2", "QuarterSort", each ([Year]*10)+[Quarter]),
+				    #"Filtered Rows" = Table.SelectRows(#"Added Custom1", each ([Date] <> null))
 				in
-				    #"Added Custom1"
+				    #"Filtered Rows"
 
 	annotation PBI_NavigationStepName = Navigation
 

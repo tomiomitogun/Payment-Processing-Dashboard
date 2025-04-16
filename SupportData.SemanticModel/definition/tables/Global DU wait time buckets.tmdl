@@ -53,7 +53,7 @@ table 'Global DU wait time buckets'
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(Web.Contents("C:\Users\DELL\Documents\Data Analysis Project\Payment Processing Dashboard\Payment-Processing-Dashboard\Pay Ops BI Lead Homework_Answer.xlsx"), null, true),
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vReUbidafH-2wR-k10A3lahb3t0WDHBvNP7EW1DVqfxejh9X1yWCE2xlONtwCBXuyOfqP30Q2ntX5iw/pub?output=xlsx"), null, true),
 				    #"Global DU wait time buckets_Sheet" = Source{[Item="Global DU wait time buckets",Kind="Sheet"]}[Data],
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Global DU wait time buckets_Sheet", [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Wait Hour Buckets", type any}, {"1. Within 1h", type any}, {"2. Within 2h", type any}, {"3. Within 4h", type any}, {"4. Within 8h", type any}, {"5. Within 12h", type any}, {"6. Within 24h", type any}, {"7. Within 48h", type any}, {"8. Within 72h", type any}}),
